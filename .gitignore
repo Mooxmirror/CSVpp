@@ -42,6 +42,7 @@ dlldata.c
 *.obj
 *.pch
 *.pdb
+*.csv
 *.pgc
 *.pgd
 *.rsp
