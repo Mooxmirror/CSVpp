@@ -2,10 +2,10 @@
 #include "CSV.h"
 
 namespace csv {
-	class Query {
+	class SQLQuery {
 
 	};
-	class QueryResult {
+	class SQLResult {
 
 	};
 }
