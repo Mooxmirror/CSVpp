@@ -1,6 +1,10 @@
 #pragma once
 #include "CSV.h"
 namespace csv {
+	using std::string;
+	using std::vector;
+	using std::deque;
+
 	class Row {
 		vector<string> header;
 		vector<string> cells;

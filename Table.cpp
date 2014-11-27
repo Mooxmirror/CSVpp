@@ -73,13 +73,14 @@ int csv::Table::height() {
 	return rows.size();
 }
 bool csv::Table::loadFromFile(string& fileName) {
+	using std::ifstream;
+
 	ifstream fileStream(fileName);
 
 	if (fileStream.is_open()) {
-		// Do file handling here
 		string line;
 		bool firstLine = true;
-		
+
 		while (std::getline(fileStream, line)) {
 			if (line != "") {
 				if (firstLine) {
@@ -96,13 +97,30 @@ bool csv::Table::loadFromFile(string& fileName) {
 		fileStream.close();
 	}
 	else
-		throw Error::FILE_NOT_FOUND;
+		return false;
 
-	return false;
+	return true;
 }
 bool csv::Table::saveToFile(string& fileName) {
-	//TODO Implement file saving
-	return false;
+	using std::ofstream;
+
+	ofstream fileStream;
+	fileStream.open(fileName);
+
+	if (fileStream.is_open()) {
+		fileStream << toCSV();
+		fileStream.close();
+	}
+	else
+		return false;
+
+	return true;
+}
+bool csv::Table::loadFromFile(char fileName[]) {
+	return loadFromFile(string(fileName));
+}
+bool csv::Table::saveToFile(char fileName[]) {
+	return saveToFile(string(fileName));
 }
 std::string csv::Table::toCSV() {
 	string result;

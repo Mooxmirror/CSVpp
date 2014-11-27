@@ -6,16 +6,13 @@
 #include <fstream>
 
 namespace csv {
-	using std::string;
-	using std::vector;
-	using std::deque;
-	using std::ifstream;
 
 	enum class Error : int {
 		UNDEFINED_CELL = 0, // cell name not found in header
 		OUT_OF_RANGE = 1, // target  index exceeds arraay
 		NOT_COMPATIBLE = 2, // row length is different
-		FILE_NOT_FOUND = 3// Failed to load fileS
+		FILE_NOT_FOUND = 3,// Failed to load fileS
+		FILE_SAVE_FAILED
 	};
 
 	class Row;
