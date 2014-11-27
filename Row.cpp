@@ -1,59 +1,148 @@
 #include "Row.h"
 
-csv::Row::Row(vector<string>& header, vector<string>& cells) {
-	this->header = header;
-	if (cells.size() != header.size())
+/**
+Creates a new row with a specified header and specified cell content.
+@param[in]	_header The header section defining cell names
+@param[in]	_cells The cell data of this row
+*/
+csv::Row::Row(vector<string>& _header, vector<string>& _cells)
+{
+	this->m_header = _header;
+	if (_cells.size() != _header.size())
+	{
 		throw Error::NOT_COMPATIBLE;
-	this->cells = cells;
+	}
+	this->m_cells = _cells;
 }
-int csv::Row::findCell(string& name) {
-	for (unsigned int i = 0; i < header.size(); i++) {
-		if (header[i] == name)
+/**
+Searches for the cell index in the header array.
+@param[in]	_name Name of the header cell
+@return Index of the header name
+*/
+int csv::Row::find_cell(string& _name)
+{
+	for (unsigned int i = 0; i < m_header.size(); i++)
+	{
+		if (m_header[i] == _name)
+		{
 			return i;
+		}
 	}
 	return -1;
 }
-void csv::Row::setCell(string& name, string& value) {
-	int cellIndex = findCell(name);
-	if (cellIndex != -1)
-		cells[cellIndex] = value;
+/**
+Sets the identified cell to the value.
+@param[in]	_name Name of the header for indexing
+@param[in]	_value Value to be assigned
+*/
+void csv::Row::set_cell(string& _name, string& _value)
+{
+	int cell_index = find_cell(_name);
+	if (cell_index != -1)
+	{
+		m_cells[cell_index] = _value;
+	}
 	else
+	{
 		throw Error::UNDEFINED_CELL;
+	}
 }
-void csv::Row::setCell(unsigned i, string& value) {
-	if (i < size())
-		cells[i] = value;
+/**
+Sets the cell at index to the value.
+@param[in]	_index Index of the cell
+@param[in]	_value Value to be assigned
+*/
+void csv::Row::set_cell(unsigned _index, string& _value)
+{
+	if (_index < length())
+	{
+		m_cells[_index] = _value;
+	}
 	else
+	{
 		throw Error::OUT_OF_RANGE;
+	}
 }
-void csv::Row::setCell(char name[], char value[]) {
-	setCell(string(name), string(value));
+/**
+Sets the identified cell to the value.
+@param[in]	_name Name of the header for indexing
+@param[in]	_value Value to be assigned
+*/
+void csv::Row::set_cell(char _name[], char _value[])
+{
+	set_cell(string(_name), string(_value));
 }
-void csv::Row::setCell(unsigned i, char value[]) {
-	setCell(i, string(value));
+/**
+Sets the cell at index to the value.
+@param[in]	_index Index of the cell
+@param[in]	_value Value to be assigned
+*/
+void csv::Row::set_cell(unsigned _index, char _value[])
+{
+	set_cell(_index, string(_value));
 }
-std::string csv::Row::getCell(string& name) {
-	int cellIndex = findCell(name);
-	if (cellIndex != -1)
-		return cells[cellIndex];
-
+/**
+Looks up the cell value.
+@param[in]	_name Name of the header for indexing
+@return Value of the cell
+*/
+std::string csv::Row::get_cell(string& _name)
+{
+	int cell_index = find_cell(_name);
+	if (cell_index != -1)
+	{
+		return m_cells[cell_index];
+	}
 	throw Error::UNDEFINED_CELL;
 }
-std::string csv::Row::getCell(unsigned i) {
-	if (i < cells.size())
-		return cells[i];
+/**
+Looks up the cell value.
+@param[in]	_name Name of the header for indexing
+@return Value of the cell
+*/
+std::string csv::Row::get_cell(char _name[])
+{
+	return get_cell(string(_name));
+}
+/**
+Looks up the cell value.
+@param[in]	_index Index of the cell in the row
+@return Value of the cell
+*/
+std::string csv::Row::get_cell(unsigned _index)
+{
+	if (_index < m_cells.size())
+	{
+		return m_cells[_index];
+	}
 	throw Error::OUT_OF_RANGE;
 }
-std::string csv::Row::toCSV() {
-	return toCSV(*this);
+/**
+Parses this row to a valid CSV line.
+@return CSV string containing row data
+*/
+std::string csv::Row::to_csv_string()
+{
+	return to_csv_string(*this);
 }
-std::string csv::Row::toCSV(Row& row) {
-	string result;
-	for (unsigned i = 0; i < row.size(); i++) {
-		result += row.getCell(i) + ";";
+/**
+Parses the specified row to a valid CSV line.
+@return CSV string containing row data
+*/
+std::string csv::Row::to_csv_string(Row& _row)
+{
+	string csv_string;
+	for (unsigned i = 0; i < _row.length(); i++)
+	{
+		csv_string += _row.get_cell(i) + ";";
 	}
-	return result;
+	return csv_string;
 }
-unsigned csv::Row::size() {
-	return cells.size();
+/**
+Calculates the count of cells.
+@return Row size
+*/
+unsigned csv::Row::length()
+{
+	return m_cells.size();
 }

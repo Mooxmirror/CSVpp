@@ -1,25 +1,31 @@
 #pragma once
 #include "CSV.h"
-namespace csv {
+
+namespace csv
+{
 	using std::string;
 	using std::vector;
-	using std::deque;
 
-	class Row {
-		vector<string> header;
-		vector<string> cells;
-		int findCell(string& name);
+	class Row
+	{
+	private:
+		vector<string>		m_header;
+		vector<string>		m_cells;
+		int					find_cell(string& _name);
 	public:
-		Row(vector<string>& header, vector<string>& cells);
-		Row(vector<string>& header) : Row(header, vector<string>(header.size())) {};
-		void setCell(string& name, string& value);
-		void setCell(unsigned i, string& value);
-		void setCell(char name[], char value[]);
-		void setCell(unsigned i, char value[]);
-		string getCell(string& name);
-		string getCell(unsigned i);
-		string toCSV();
-		static string toCSV(Row& row);
-		unsigned size();
+		Row(vector<string>&, vector<string>&);
+		Row(vector<string>& _header) : Row(_header, vector<string>(_header.size())) {};
+
+		void			set_cell(string&, string&);
+		void			set_cell(unsigned, string&);
+		void			set_cell(char[], char[]);
+		void			set_cell(unsigned, char[]);
+		string			get_cell(string&);
+		string			get_cell(char[]);
+		string			get_cell(unsigned);
+		string			to_csv_string();
+		unsigned		length();
+
+		static string	to_csv_string(Row&);
 	};
 }

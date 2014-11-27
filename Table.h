@@ -7,26 +7,28 @@ namespace csv {
 	using std::deque;
 
 	class Table {
-		vector<string> header;
-		deque<Row> rows;
+	private:
+		vector<string>	m_header;
+		deque<Row>		m_rows;
 	public:
 		Table();
-		Table(vector<string>& header);
-		Table(string& fileName);
-		Table(char fileName[]) : Table(string(fileName)) {};
+		Table(vector<string>&);
+		Table(string&);
+		Table(char _file[]) : Table(string(_file)) {};
 		~Table();
-		Row getRow(int i);
-		void setRow(int i, Row& row);
-		int addRow(Row& row);
-		void removeRow(int i);
-		int width();
-		int height();
-		bool loadFromFile(string& fileName);
-		bool loadFromFile(char fileName[]);
-		bool saveToFile(string& fileName);
-		bool saveToFile(char fileName[]);
-		static vector<string> splitLine(string& line, char seperator = ';');
-		Row toRow(string& line);
-		string toCSV();
+		Row			get_row(unsigned);
+		void		set_row(unsigned, Row&);
+		unsigned	add_row(Row&);
+		void		rem_row(unsigned);
+		unsigned	col_count();
+		unsigned	row_count();
+		bool		load_file(string&);
+		bool		load_file(char[]);
+		bool		save_file(string&);
+		bool		save_file(char[]);
+		Row			parse_to_row(string&);
+		string		to_csv_string();
+
+		static vector<string> split_line(string&, char = ';');
 	};
 }

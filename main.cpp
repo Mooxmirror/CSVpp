@@ -4,5 +4,5 @@
 using namespace std;
 int main() {
 	csv::Table myTable(string("schoolarships.csv"));
-	myTable.saveToFile(string("schools1.csv"));
+	myTable.save_file(string("schools1.csv"));
 }
