@@ -8,11 +8,9 @@ int main() {
 	header[1] = "Last name";
 	header[2] = "Age";
 
+	string myLine = "Peter;Parker;21";
 	csv::Table myTable(header);
-	csv::Row myRow(header);
-	myRow.setCell("First name", "Peter");
-	myRow.setCell(1, "Parker");
-	myRow.setCell(2, "21");
+	csv::Row myRow = myTable.toRow(myLine);
 	myTable.addRow(myRow);
 	cout << myTable.toCSV();
 }
